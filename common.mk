@@ -42,6 +42,7 @@ cddr=$(call cdr,$(call cdr,$1))
 
 
 # NUMBERS
+# _e suffix indicates function operates on encoded numbers (except for decode :P)
 
 # Digits of number as list 1212 -> 1 2 1 2
 # Strip to remove last trailing space
@@ -49,3 +50,29 @@ digits=$(strip $(call _digits_rec,$(digit_list),$1))
 # 1: digits left to process
 # 2: string to process
 _digits_rec=$(if $(strip $1),$(call _digits_rec,$(call cdr,$1),$(subst $(call car,$1),$(call car,$1)$(space),$2)),$2)
+
+# Encoded numbers
+one:=x
+two:=x x
+
+# Sum pair
+sum_e=$1 $2
+
+# Multiply pair
+mul_e=$(foreach d,$1,$2)
+
+# Raise to the power
+# 1: Number
+# 2: Power
+pow_e=$(foreach d,$(call cdr,$2),$(call mul_e,$1,$1))
+square_e=$(call pow_e,$1,$(two))
+
+# 2^16
+# Max int we know how to encode
+max_int:=$(call square_e,$(call square_e,$(call square_e,$(call square_e,$(two)))))
+
+# Decimal int from encoded
+decode=$(words $1)
+
+# Encoded int from decimal
+encode=$(wordlist 1,$1,$(max_int))
