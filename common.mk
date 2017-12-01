@@ -35,6 +35,11 @@ cdr=$(wordlist 2,$(words $1),$1)
 # packed cdr of packed list
 p_cdr=$(call pack,$(call cdr,$(call unpack,$1)))
 
+# various car/cdr combinations
+# TODO - Autogenerate these. caar, cdaar and friends will be useless as we can't nest lists
+cadr=$(call car,$(call cdr,$1))
+cddr=$(call cdr,$(call cdr,$1))
+
 
 # NUMBERS
 
