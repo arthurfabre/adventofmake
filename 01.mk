@@ -12,5 +12,4 @@ LIST_NEXT_REC=$(if $(call eq,1,$(words $1)),$2,$(call LIST_NEXT_REC,$(call cdr,$
 	@# Copy first number to back to make it circular
 	$(eval DIGITS+=$(call car,$(DIGITS)))
 
-	$(eval DUPLICATES:=$(call LIST_NEXT,$(DIGITS)))
-	$(info DUPS=$(DUPLICATES))
+	$(info SUM=$(call sum,$(call LIST_NEXT,$(DIGITS))))
