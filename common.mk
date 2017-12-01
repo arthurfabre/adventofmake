@@ -52,11 +52,15 @@ digits=$(strip $(call _digits_rec,$(digit_list),$1))
 _digits_rec=$(if $(strip $1),$(call _digits_rec,$(call cdr,$1),$(subst $(call car,$1),$(call car,$1)$(space),$2)),$2)
 
 # Encoded numbers
+zero:=
 one:=x
 two:=x x
 
 # Sum pair
 sum_e=$1 $2
+
+# Sum list of packed, encoded numbers
+sum_all_e=$(if $(strip $1),$(call sum_e,$(call p_car,$1),$(call sum_all_e,$(call p_cdr,$1))),)
 
 # Multiply pair
 mul_e=$(foreach d,$1,$2)
@@ -76,3 +80,6 @@ decode=$(words $1)
 
 # Encoded int from decimal
 encode=$(wordlist 1,$1,$(max_int))
+
+# Sum list of decimals
+sum=$(call decode,$(call sum_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
