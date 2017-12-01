@@ -65,6 +65,18 @@ sum_all_e=$(if $(strip $1),$(call sum_e,$(call p_car,$1),$(call sum_all_e,$(call
 # Multiply pair
 mul_e=$(foreach d,$1,$2)
 
+# Divise pair
+# TODO
+#div_e=$()
+
+# Subtract pair
+# TODO
+#sub_e=$()
+
+# Halve an encoded number
+halve_e=$(call _halve_e_rec,$1,)
+_halve_e_rec=$(if $(strip $1),$(if $(strip $2),$(call car,$1) $(call _halve_e_rec,$(call cdr,$1),),$(call _halve_e_rec,$(call cdr,$1),y)),)
+
 # Raise to the power
 # 1: Number
 # 2: Power
