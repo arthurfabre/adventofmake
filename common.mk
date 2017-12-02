@@ -128,3 +128,9 @@ sum=$(call decode,$(call sum_all_e,$(foreach n,$1,$(call pack,$(call encode,$n))
 # Subtract list of decimals
 # TODO - Make a generic call all with pack + encode + decode function
 sub=$(call decode,$(call sub_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
+
+# Divide two decimals (input as list)
+div=$(call decode,$(call div_e,$(call encode,$(call car,$1)),$(call encode,$(call cadr,$1))))
+
+# Modulus of two decimals (input as list)
+mod=$(call decode,$(call mod_e,$(call encode,$(call car,$1)),$(call encode,$(call cadr,$1))))
