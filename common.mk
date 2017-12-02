@@ -85,7 +85,11 @@ div_e=$(subst M,x,$(filter-out x,$(subst $2,M,$1)))
 mod_e=$(filter-out M,$(subst $2,M,$1))
 
 # Subtract pair
-sub_e=$(wordlist $(call sum_e,$(one),$2),$(words $1),$1)
+sub_e=$(filter-out xx,$(join $1,$2))
+
+# Subtract list of packed, encoded numbers
+sub_all_e=$(call _sub_all_e_rec,$(call cdr,$1),$(call unpack,$(call car,$1)))
+_sub_all_e_rec=$(if $(strip $1),$(call _sub_all_e_rec,$(call cdr,$1),$(call sub_e,$2,$(call unpack,$(call car,$1)))),$2)
 
 # Halve an encoded number
 halve_e=$(call div_e,$1,$(two))
@@ -108,3 +112,7 @@ encode=$(wordlist 1,$1,$(max_int))
 
 # Sum list of decimals
 sum=$(call decode,$(call sum_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
+
+# Subtract list of decimals
+# TODO - Make a generic call all with pack + encode + decode function
+sub=$(call decode,$(call sub_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
