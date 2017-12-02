@@ -7,6 +7,17 @@ comma:=,
 # Single space character
 space:=$(empty) $(empty)
 
+# Single newline character
+define newline
+
+
+endef
+
+# Single tab character
+define tab
+	
+endef
+
 # List of base 10 digits
 digit_list:=0 1 2 3 4 5 6 7 8 9
 
