@@ -60,7 +60,7 @@ two:=x x
 sum_e=$1 $2
 
 # Sum list of packed, encoded numbers
-sum_all_e=$(if $(strip $1),$(call sum_e,$(call p_car,$1),$(call sum_all_e,$(call p_cdr,$1))),)
+sum_all_e=$(foreach n,$1,$(call unpack,$n))
 
 # Multiply pair
 mul_e=$(foreach d,$1,$2)
