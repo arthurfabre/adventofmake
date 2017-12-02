@@ -110,6 +110,18 @@ decode=$(words $1)
 # Encoded int from decimal
 encode=$(wordlist 1,$1,$(max_int))
 
+# Is $1 greater than $2?
+gt=$(if $(call eq,0,$2),$1,$(wordlist $2,$1,$(max_int)))
+
+# Maximum of a list of decimals
+max=$(call _max_rec,$1,0)
+_max_rec=$(if $(strip $1),$(call _max_rec,$(call cdr,$1),$(if $(call gt,$(call car,$1),$2),$(call car,$1),$2)),$2)
+
+# Minimum of a list of decimals
+# TODO - Merge this with max somehow?
+min=$(call _min_rec,$1,$(call car,$1))
+_min_rec=$(if $(strip $1),$(call _min_rec,$(call cdr,$1),$(if $(call gt,$(call car,$1),$2),$2,$(call car,$1))),$2)
+
 # Sum list of decimals
 sum=$(call decode,$(call sum_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
 
