@@ -66,16 +66,16 @@ sum_all_e=$(if $(strip $1),$(call sum_e,$(call p_car,$1),$(call sum_all_e,$(call
 mul_e=$(foreach d,$1,$2)
 
 # Divise pair
-# TODO
-#div_e=$()
+div_e=$(subst M,x,$(filter-out x,$(subst $2,M,$1)))
+
+# Modulus
+mod_e=$(filter-out M,$(subst $2,M,$1))
 
 # Subtract pair
-# TODO
-#sub_e=$()
+sub_e=$(wordlist $(call sum_e,$(one),$2),$(words $1),$1)
 
 # Halve an encoded number
-halve_e=$(call _halve_e_rec,$1,)
-_halve_e_rec=$(if $(strip $1),$(if $(strip $2),$(call car,$1) $(call _halve_e_rec,$(call cdr,$1),),$(call _halve_e_rec,$(call cdr,$1),y)),)
+halve_e=$(call div_e,$1,$(two))
 
 # Raise to the power
 # 1: Number
