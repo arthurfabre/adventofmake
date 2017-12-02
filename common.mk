@@ -29,12 +29,14 @@ eq=$(and $(findstring $(strip $1),$(strip $2)),$(findstring $(strip $2),$(strip 
 
 
 # LISTS
+# Packed list seperator
+pack_sep:=|
 
 # Pack a list into a single string. Useful for nested lists.
-pack=$(subst $(space),|,$(strip $1))
+pack=$(subst $(space),$(pack_sep),$(strip $1))
 
 # Unpack a string produced by pack()
-unpack=$(strip $(subst |,$(space),$1))
+unpack=$(strip $(subst $(pack_sep),$(space),$1))
 
 # car of a list
 car=$(firstword $1)
