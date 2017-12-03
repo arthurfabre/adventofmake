@@ -140,3 +140,7 @@ div=$(call decode,$(call div_e,$(call encode,$(call car,$1)),$(call encode,$(cal
 
 # Modulus of two decimals (input as list)
 mod=$(call decode,$(call mod_e,$(call encode,$(call car,$1)),$(call encode,$(call cadr,$1))))
+
+# $1 to the power of $2
+pow=$(call decode,$(call pow_e,$(call encode,$1),$(call encode,$2)))
+square=$(call decode,$(call pow_e,$(call encode,$1),$(two)))
