@@ -85,6 +85,9 @@ sum_all_e=$(foreach n,$1,$(call unpack,$n))
 # Multiply pair
 mul_e=$(foreach d,$1,$2)
 
+# Multiply list of packed, encoded numbers
+mul_all_e=$(info mul $1$(newline))$(if $(call eq,1,$(words $1)),$(call unpack,$1),$(call mul_e,$(call unpack,$(call car,$1)),$(call mul_all_e,$(call cdr,$1))))
+
 # Divise pair
 div_e=$(subst M,x,$(filter-out x,$(subst $2,M,$1)))
 
@@ -142,6 +145,9 @@ sum=$(call decode,$(call sum_all_e,$(foreach n,$1,$(call pack,$(call encode,$n))
 # TODO - Make a generic call all with pack + encode + decode function
 sub=$(call decode,$(call sub_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
 
+# Multiply list of decimals
+mul=$(call decode,$(call mul_all_e,$(foreach n,$1,$(call pack,$(call encode,$n)))))
+
 # Divide two decimals (input as list)
 div=$(call decode,$(call div_e,$(call encode,$(call car,$1)),$(call encode,$(call cadr,$1))))
 
@@ -150,4 +156,4 @@ mod=$(call decode,$(call mod_e,$(call encode,$(call car,$1)),$(call encode,$(cal
 
 # $1 to the power of $2
 pow=$(call decode,$(call pow_e,$(call encode,$1),$(call encode,$2)))
-square=$(call decode,$(call pow_e,$(call encode,$1),$(two)))
+square=$(call decode,$(call square_e,$(call encode,$1),$(two)))
