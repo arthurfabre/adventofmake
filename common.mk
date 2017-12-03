@@ -97,8 +97,8 @@ halve_e=$(call div_e,$1,$(two))
 # Raise to the power
 # 1: Number
 # 2: Power
-pow_e=$(foreach d,$(call cdr,$2),$(call mul_e,$1,$1))
-square_e=$(call pow_e,$1,$(two))
+pow_e=$(if $(strip $2),$(call mul_e,$1,$(call pow_e,$1,$(call cdr,$2))),$(one))
+square_e=$(call mul_e,$1,$1)
 
 # 2^16
 # Max int we know how to encode
