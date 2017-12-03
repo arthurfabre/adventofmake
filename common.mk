@@ -68,6 +68,13 @@ _digits_rec=$(if $(strip $1),$(call _digits_rec,$(call cdr,$1),$(subst $(call ca
 zero:=
 one:=x
 two:=x x
+three:=x x x
+four:=x x x x
+five:=x x x x x
+six:=x x x x x x
+seven:=x x x x x x x
+eight:=x x x x x x x x
+nine:=x x x x x x x x x
 
 # Sum pair
 sum_e=$1 $2
@@ -100,9 +107,9 @@ halve_e=$(call div_e,$1,$(two))
 pow_e=$(if $(strip $2),$(call mul_e,$1,$(call pow_e,$1,$(call cdr,$2))),$(one))
 square_e=$(call mul_e,$1,$1)
 
-# 2^16
 # Max int we know how to encode
-max_int:=$(call square_e,$(call square_e,$(call square_e,$(call square_e,$(two)))))
+# 2^(4*5) = 2^20 = 1 048 576
+max_int:=$(call pow_e,$(two),$(call mul_e,$(four),$(five)))
 
 # Decimal int from encoded
 decode=$(words $1)
