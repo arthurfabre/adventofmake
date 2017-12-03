@@ -110,8 +110,14 @@ decode=$(words $1)
 # Encoded int from decimal
 encode=$(wordlist 1,$1,$(max_int))
 
-# Is $1 greater than $2?
-gt=$(if $(call eq,0,$2),$1,$(wordlist $2,$1,$(max_int)))
+# Is $1 greater than or equal to $2?
+gte=$(if $(call eq,0,$2),$1,$(wordlist $2,$1,$(max_int)))
+# Is $1 strictly greater than $2?
+gt=$(if $(call eq,$1,$2),,$(call gte,$1,$2))
+# Is $1 less than or equal to $2?
+lte=$(call gte,$2,$1)
+# Is $1 strictly less than $2?
+lt=$(call gt,$2,$1)
 
 # Maximum of a list of decimals
 max=$(call _max_rec,$1,0)
