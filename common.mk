@@ -1,3 +1,4 @@
+# STRING
 # Empty variable
 empty:=
 
@@ -21,8 +22,25 @@ endef
 # List of base 10 digits
 digit_list:=0 1 2 3 4 5 6 7 8 9
 
+# List of lower case letters
+lower_list:=a b c d e f g h i j k l m n o p q r s t u v w x y z
 
-# STRING
+# List of upper case letters
+upper_list:=A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
+
+# List of lower and upper case alphabetic characters
+letter_list:=$(lower_list) $(upper_list)
+
+# List of alpha-numeric characters (A-Z a-z 0-9)
+alphanum_list:=$(letter_list) $(digit_list)
+
+# Turn a string into a list of characters
+# 1: List of characters to search for
+# 2: Input string
+char_sep=$(if $(strip $1),$(call char_sep,$(call cdr,$1),$(subst $(call car,$1),$(call car,$1)$(space),$2)),$2)
+
+# Turn string of letters (upper or lower) into list of letters
+letters=$(strip $(call char_sep,$(letter_list),$1))
 
 # If $1 is in $2, and $2 is in $1 then $1 == $2
 eq=$(and $(findstring $(strip $1),$(strip $2)),$(findstring $(strip $2),$(strip $1)))
@@ -59,10 +77,7 @@ cddr=$(call cdr,$(call cdr,$1))
 
 # Digits of number as list 1212 -> 1 2 1 2
 # Strip to remove last trailing space
-digits=$(strip $(call _digits_rec,$(digit_list),$1))
-# 1: digits left to process
-# 2: string to process
-_digits_rec=$(if $(strip $1),$(call _digits_rec,$(call cdr,$1),$(subst $(call car,$1),$(call car,$1)$(space),$2)),$2)
+digits=$(strip $(call char_sep,$(digit_list),$1))
 
 # Encoded numbers
 zero:=
