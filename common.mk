@@ -2,10 +2,10 @@
 # Empty variable
 empty:=
 
-# Single comma
+# Comma character
 comma:=,
 
-# Single space character
+# Space character
 space:=$(empty) $(empty)
 
 # Single newline character
@@ -14,9 +14,33 @@ define newline
 
 endef
 
-# Single tab character
+# Tab character
 define tab
 	
+endef
+
+# Single quote character
+define s_quote
+'
+endef
+
+# Double quote character
+define d_quote
+"
+endef
+
+# Pound / hash character
+pound:=\#
+
+# Dollar character
+dollar:=$$
+
+# Backslash character
+b_slash:=\$(empty)
+
+# Backtick / grave accent
+define b_tick:=
+`
 endef
 
 # List of base 10 digits
@@ -33,6 +57,9 @@ letter_list:=$(lower_list) $(upper_list)
 
 # List of alpha-numeric characters (A-Z a-z 0-9)
 alphanum_list:=$(letter_list) $(digit_list)
+
+# List of printable ASCII characters
+ascii_list:=$(space) ! $(d_quote) $(pound) $(dollar) % & $(s_quote) ( ) * + $(comma) - . / $(digit_list) : ; < = > ? @ $(upper_list) [ $(b_slash) ] ^ _ $(b_tick) $(lower_list) { | } ~
 
 # Turn a string into a list of characters
 # 1: List of characters to search for
