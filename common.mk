@@ -98,6 +98,11 @@ p_cdr=$(call pack,$(call cdr,$(call unpack,$1)))
 cadr=$(call car,$(call cdr,$1))
 cddr=$(call cdr,$(call cdr,$1))
 
+# Index of first item in $2 eq() to $1
+# Expands to 0 if not found
+first_match=$(call decode,$(call _first_match_rec,$1,$2,$(one)))
+_first_match_rec=$(if $(strip $2),$(if $(call eq,$(call car,$2),$1),$3,$(call _first_match_rec,$1,$(call cdr,$2),$(call sum_e,$3,$(one)))),)
+
 
 # NUMBERS
 # _e suffix indicates function operates on encoded numbers (except for decode :P)
