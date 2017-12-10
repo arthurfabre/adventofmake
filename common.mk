@@ -195,6 +195,7 @@ square_e=$(call mul_e,$1,$1)
 
 # List of packed encoded numbers from $1 to $2
 seq_e=$(if $(call lte_e,$1,$2),$(call pack,$1) $(call seq_e,$(call sum_e,$(one),$1),$2))
+seq=$(foreach n,$(call seq_e,$(call encode,$1),$(call encode,$2)),$(call decode,$(call unpack,$n)))
 
 # Max int we know how to encode
 # 2^(4*5) = 2^20 = 1 048 576
