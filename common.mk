@@ -72,6 +72,8 @@ letters=$(strip $(call char_sep,$(letter_list),$1))
 # If $1 is in $2, and $2 is in $1 then $1 == $2
 eq=$(and $(findstring $(strip $1),$(strip $2)),$(findstring $(strip $2),$(strip $1)))
 
+# Expand to nothing if $1, else "1"
+not=$(if $1,,1)
 
 # LISTS
 # Packed list seperator
