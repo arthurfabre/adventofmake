@@ -171,6 +171,9 @@ halve_e=$(call div_e,$1,$(two))
 pow_e=$(if $(strip $2),$(call mul_e,$1,$(call pow_e,$1,$(call cdr,$2))),$(one))
 square_e=$(call mul_e,$1,$1)
 
+# List of packed encoded numbers from $1 to $2
+seq_e=$(if $(call lte_e,$1,$2),$(call pack,$1) $(call seq_e,$(call sum_e,$(one),$1),$2))
+
 # Max int we know how to encode
 # 2^(4*5) = 2^20 = 1 048 576
 max_int:=$(call pow_e,$(two),$(call mul_e,$(four),$(five)))
@@ -180,6 +183,12 @@ decode=$(words $1)
 
 # Encoded int from decimal
 encode=$(wordlist 1,$1,$(max_int))
+
+# Is $1 greater than or equal to $2?
+gte_e=$(call gte,$(words $1),$(words $2))
+gt_e=$(call gt,$(words $1),$(words $2))
+lte_e=$(call lte,$(words $1),$(words $2))
+lt_e=$(call lt,$(words $1),$(words $2))
 
 # Is $1 greater than or equal to $2?
 gte=$(if $(call eq,0,$2),$1,$(wordlist $2,$1,$(max_int)))
