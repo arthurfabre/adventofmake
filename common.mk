@@ -147,7 +147,7 @@ sum_all_e=$(foreach n,$1,$(call unpack,$n))
 mul_e=$(foreach d,$1,$2)
 
 # Multiply list of packed, encoded numbers
-mul_all_e=$(info mul $1$(newline))$(if $(call eq,1,$(words $1)),$(call unpack,$1),$(call mul_e,$(call unpack,$(call car,$1)),$(call mul_all_e,$(call cdr,$1))))
+mul_all_e=$(if $(call eq,1,$(words $1)),$(call unpack,$1),$(call mul_e,$(call unpack,$(call car,$1)),$(call mul_all_e,$(call cdr,$1))))
 
 # Divise pair
 div_e=$(subst M,x,$(filter-out x,$(subst $2,M,$1)))
