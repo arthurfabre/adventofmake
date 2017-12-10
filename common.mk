@@ -98,6 +98,18 @@ p_cdr=$(call pack,$(call cdr,$(call unpack,$1)))
 cadr=$(call car,$(call cdr,$1))
 cddr=$(call cdr,$(call cdr,$1))
 
+# Set word 1 to value 2 in 3
+set=$(strip $(wordlist 1,$(call sub,$1 1),$3) $2 $(wordlist $(call sum,$1 1),$(words $3),$3))
+
+# Remove word 1 in 3
+del=$(call set,$1,,$2)
+
+# Check if 1 is a valid index in 2
+valid=$(and $(call gt,$1,0),$(call lte,$1,$(words $2)))
+
+# Reverse all the elements of a list
+reverse=$(if $1,$(call reverse,$(call cdr,$1))$(call car,$1) )
+
 # Index of first item in $2 eq() to $1
 # Expands to 0 if not found
 first_match=$(call decode,$(call _first_match_rec,$1,$2,$(one)))
