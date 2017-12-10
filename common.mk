@@ -100,14 +100,36 @@ p_cdr=$(call pack,$(call cdr,$(call unpack,$1)))
 cadr=$(call car,$(call cdr,$1))
 cddr=$(call cdr,$(call cdr,$1))
 
-# Set word 1 to value 2 in 3
+# Get the "real" index from circular index 1 in 2
+# foreach is used as let
+index_c=$(foreach l,$(words $2),$(foreach m,$(call mod,$1 $l),$(if $(call eq,$m,0),$l,$m)))
+
+# Get a slice of list 3, [1:2]
+slice=$(wordlist $1,$2,$3)
+# Get a slice of circular list 3, [1:2].
+slice_c=$(if $(call lte,$1,$2),$(call get_c,$1,$3) $(call slice_c,$(call sum,1 $1),$2,$3))
+
+# Replace elements startiing at 1, with elements from 2 in circular list 3
+set_all_c=$(if $(strip $2),$(call set_all_c,$(call sum,$1 1),$(call cdr,$2),$(call set,$(call index_c,$1,$3),$(call car,$2),$3)),$3)
+
+# Get element 1 from 2
+get=$(word $1,$2)
+get_c=$(word $(call index_c,$1,$2),$2)
+
+# Set word 1 to value 2 in list 3
 set=$(strip $(wordlist 1,$(call sub,$1 1),$3) $2 $(wordlist $(call sum,$1 1),$(words $3),$3))
+# Set word 1 to value 2 in circular list 3
+set_c=$(call set,$(call index_c,$1,$3),$2,$3)
 
-# Remove word 1 in 3
+# Remove word 1 in list 3
 del=$(call set,$1,,$2)
+# Remove word 1 in circular list 3
+del_c=$(call set_c,$1,,$2)
 
-# Check if 1 is a valid index in 2
+# Check if 1 is a valid index in list 2
 valid=$(and $(call gt,$1,0),$(call lte,$1,$(words $2)))
+# Check if 1 is a valid index in ciruclar list 2 (optional arg)
+valid_c=$(call not,$(call eq,$1,0))
 
 # Reverse all the elements of a list
 reverse=$(if $1,$(call reverse,$(call cdr,$1))$(call car,$1) )
